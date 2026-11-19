@@ -1,0 +1,31 @@
+{
+  // Shared Quests settings. Restart the server after changing this file.
+  "enabled": true,
+
+  // Players who share quests. Name each player by launcher username, in-game nickname or profile id.
+  // Add more groups like this: [ ["you", "friend1"], ["friend2", "friend3"] ]
+  "groups": [
+    ["PLAYER_ONE", "PLAYER_TWO"]
+  ],
+
+  // Share the EFT 1.2 story (VisitAPI): story variables, dialogue choices and story objectives.
+  "syncStory": true,
+
+  // Give everyone in a group the same dailies and weeklies.
+  "syncDailiesAndWeeklies": true,
+
+  // When one of you accepts a quest, accept it for the others too (only if they have it unlocked).
+  "shareQuestAccept": true,
+
+  // How kills add up when you play the same Fika raid together:
+  //   "auto" = read Fika's sharedQuestProgression ("max" when it's on, "sum" when it's off)
+  //   "max"  = Fika already gives everyone the kills, so count them once
+  //   "sum"  = add everyone's kills together
+  "sameRaidCounting": "auto",
+
+  // Seconds between checks for menu changes (hand-ins, story choices).
+  "checkIntervalSeconds": 2,
+
+  // Write each sync to the server console.
+  "logChanges": true
+}

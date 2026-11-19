@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>SharedQuests</AssemblyName>
+    <RootNamespace>SharedQuests</RootNamespace>
+    <Version>1.0.0</Version>
+    <Deterministic>true</Deterministic>
+    <DebugType>none</DebugType>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <!-- Compile-time only: SPT supplies these at runtime, so none are copied into the mod folder. -->
+    <PackageReference Include="SPTarkov.Server.Core" Version="4.1.2" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="SPTarkov.DI" Version="4.1.2" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="SPTarkov.Common" Version="4.1.2" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="SPTarkov.Reflection" Version="4.1.2" ExcludeAssets="runtime" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
