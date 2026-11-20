@@ -308,6 +308,49 @@ public class SharedQuestService(
         }
     }
 
+    //====================[ Live sync (client plugin) ]====================
+    // See LiveSync.cs. Records what the player's game has, then answers with what the server has.
+    internal SyncReply ClientSync(MongoId sessionId, SyncRequest? request)
+    {
+        var off = new SyncReply { Enabled = false };
+        if (!_config.Enabled || !_config.LiveSync || !InGroup(sessionId)) return off;
+
+        Poll();
+        lock (_gate)
+        {
+            var profile = ProfileOf(sessionId);
+            var pmc = profile?.CharacterData?.PmcData;
+            if (profile is null || pmc is null) return off;
+            var server = State.From(profile, _config.SyncStory);
+
+            if (request?.Quests is not null && request.Counters is not null)
+            {
+                var quests = new Dictionary<string, (QuestStatusEnum, HashSet<string>)>();
+                foreach (var (q, report) in request.Quests)
+                    quests[q] = ((QuestStatusEnum)report.Status, new HashSet<string>(report.Conditions ?? []));
+                var view = _clientView.TryGetValue(sessionId, out var v) ? v : server.Clone();
+                view.SetQuestsFromClient(request.Counters, quests, server);
+                _clientView[sessionId] = view;
+            }
+
+            var reply = new SyncReply { Enabled = true };
+            var active = new HashSet<string>();
+            foreach (var quest in pmc.Quests ?? [])
+            {
+                if (!State.IsActive(quest.Status)) continue;
+                var q = quest.QId.ToString();
+                active.Add(q);
+                reply.Quests[q] = new QuestReport { Status = (int)quest.Status, Conditions = (quest.CompletedConditions ?? []).ToList() };
+            }
+            foreach (var (id, counter) in pmc.TaskConditionCounters ?? [])
+            {
+                var q = counter.SourceId?.ToString() ?? "";
+                if (active.Contains(q)) reply.Counters[id.ToString()] = new CounterReport { Value = counter.Value ?? 0, Quest = q };
+            }
+            return reply;
+        }
+    }
+
     //====================[ End of raid ]====================
     internal void BeforeRaidEnd(MongoId sessionId)
     {

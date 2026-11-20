@@ -29,6 +29,10 @@ public sealed class SyncConfig
     // Seconds between checks for changes made in menus (hand-ins, story choices, ...).
     [JsonPropertyName("checkIntervalSeconds")] public int CheckIntervalSeconds { get; set; } = 2;
 
+    // Answer the optional Shared Quests Live client plugin, which shows a friend's progress in your game
+    // straight away instead of after a raid or restart.
+    [JsonPropertyName("liveSync")] public bool LiveSync { get; set; } = true;
+
     [JsonPropertyName("logChanges")] public bool LogChanges { get; set; } = true;
 
     public static SyncConfig Load(string path)

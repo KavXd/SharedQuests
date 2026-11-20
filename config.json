@@ -26,6 +26,10 @@
   // Seconds between checks for menu changes (hand-ins, story choices).
   "checkIntervalSeconds": 2,
 
+  // Answer the optional Shared Quests Live client plugin (shows a friend's progress in your game
+  // within a few seconds, without a raid or restart). Players without the plugin aren't affected.
+  "liveSync": true,
+
   // Write each sync to the server console.
   "logChanges": true
 }

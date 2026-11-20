@@ -236,6 +236,25 @@ public sealed class State
             if (!StoryCounts.TryGetValue(k, out var have) || v > have) StoryCounts[k] = v;
     }
 
+    // Replaces the quest part (not the story part) with what a player's game reported. Counter types and
+    // quests come from the server's copy, which the game doesn't send.
+    public void SetQuestsFromClient(Dictionary<string, double> counters, Dictionary<string, (QuestStatusEnum Status, HashSet<string> Conditions)> quests, State server)
+    {
+        Counters = new(counters);
+        CounterMeta = new();
+        foreach (var id in counters.Keys)
+            if (server.CounterMeta.TryGetValue(id, out var meta)) CounterMeta[id] = meta;
+        Status = new();
+        Conditions = new();
+        Finishable = new();
+        foreach (var (q, (status, conditions)) in quests)
+        {
+            Status[q] = status;
+            Conditions[q] = new HashSet<string>(conditions);
+            if (IsDone(status)) Finishable.Add(q);
+        }
+    }
+
     // Forgets a quest's shared progress (when someone restarts a failed quest).
     public void ResetQuest(string questId)
     {

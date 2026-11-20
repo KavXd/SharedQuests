@@ -3,7 +3,7 @@
 A server mod for **SPT 4.1.x** that lets a group of players share quest progress.
 Each player still turns quests in themselves and gets their own rewards.
 
-- Version: 1.0.0
+- Version: 1.1.0
 - SPT: 4.1.x (built against SPTarkov.Server.Core 4.1.2, tested on 4.1.6)
 - Required mods: none
 - Optional mods: [Fika](https://github.com/project-fika) (playing raids together), VisitAPI (EFT 1.2 story)
@@ -25,7 +25,8 @@ Each player still turns quests in themselves and gets their own rewards.
 
 ## Install
 
-This is a server-only mod. Players don't install anything.
+This is a server mod. Players don't need to install anything (see *Seeing progress straight away*
+for an optional client plugin).
 
 1. Stop the server and back up `SPT/user/profiles`.
 2. Extract the zip into your SPT folder, so you get `SPT/user/mods/SharedQuests/SharedQuests.dll`.
@@ -44,6 +45,7 @@ This is a server-only mod. Players don't install anything.
 | `shareQuestAccept` | `true` | Accept a quest for the others when one of you accepts it. |
 | `sameRaidCounting` | `"auto"` | Fika raids together: `"max"` counts kills once, `"sum"` adds them, `"auto"` reads Fika's `sharedQuestProgression`. |
 | `checkIntervalSeconds` | `2` | How often menu changes (hand-ins, story choices) are checked. |
+| `liveSync` | `true` | Answer the optional Shared Quests Live client plugin. |
 | `logChanges` | `true` | Write each sync to the server console. |
 
 ## Good to know
@@ -51,11 +53,19 @@ This is a server-only mod. Players don't install anything.
 - When the server starts, the mod combines the group's progress: everyone gets the furthest
   story state and every step anyone finished on quests they share. It works best when you
   start at a similar point.
-- Your game shows a friend's progress after it reloads your profile: after your next raid,
-  or after restarting the game. The server has it straight away.
+- Without the client plugin, your game shows a friend's progress after it reloads your profile:
+  after your next raid, or after restarting the game. The server has it straight away.
 - The mod never starts, unlocks or turns in a quest by itself, except accepting one a friend
   accepted (`shareQuestAccept`).
 - Failing a quest isn't shared.
+
+## Seeing progress straight away (optional)
+
+Install the [**Shared Quests Live**](https://github.com/KavXd/SharedQuestsLive) client plugin (`BepInEx/plugins/SharedQuestsLive/SharedQuestsLive.dll`)
+in each player's game. While you're in the menus it asks the server every few seconds and puts your
+group's progress (counters, finished steps, ready to turn in) into your quest list, with a short
+message. It doesn't run during a raid, and it never turns in, starts or fails a quest.
+The Fika headless client doesn't need it.
 
 ## Uninstall
 

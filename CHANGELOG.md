@@ -2,6 +2,13 @@
 
 This project uses [Semantic Versioning](https://semver.org/).
 
+## 1.1.0 - 2026-11-20
+
+- New address `/sharedquests/sync` for the optional Shared Quests Live client plugin, which shows a
+  friend's progress in your game within a few seconds instead of after a raid or restart.
+  Players without the plugin aren't affected.
+- New setting `liveSync` (default `true`).
+
 ## 1.0.0 - 2026-11-19
 
 First release.
